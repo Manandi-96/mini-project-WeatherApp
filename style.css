@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url(img/images.jfif);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+ 
+
+.container{
+    background: rgba(0, 0, 0, 0.7);
+    width: 700px;
+    position: absolute;
+    margin-top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.autocomplete{
+    display: flex;
+    flex-direction:row;
+}
+
+.autocomplete input{
+    padding: 10px 10px;
+    max-width: 500px;
+    margin: 10px;
+    border-radius: 15px;
+}
+.autocomplete button{
+    padding: 5px 10px;  
+    margin: 10px 0;  
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+.details h1{
+    font-size: 40px;
+    font-weight: 500;
+    padding-top: 10px;
+}
+
+.img,
+#humidity,
+#windSpeed{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+
+
+
+
