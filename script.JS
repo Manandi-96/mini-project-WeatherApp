@@ -1,32 +1,120 @@
 /* weather api= https://api.openweathermap.org/data/2.5/weather?q=anuradhapura&appid=b8bd635830262b09220172898de88d1a&units=metric*/
 
-const apiKey= "b8bd635830262b09220172898de88d1a";
-const apiUrl=" https://api.openweathermap.org/data/2.5/weather?&units=metric&q=anuradhapura";
+const apiKey = "b8bd635830262b09220172898de88d1a";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 
 
-async function checkWeather(){
-    const response=await fetch(apiUrl+ `&appid=${apiKey}`);
-    var data= await response.json();
+// Add the city name to the function using event listener
+const locationInput = document.querySelector('#locationInput');
+const button = document.querySelector('.btn');
+const weatherIcon= document.querySelector(".weather-icon");
+const autocompleteList = document.createElement("div");
+autocompleteList.setAttribute("class", "autocompleteForm-items");
+document.querySelector('.autocomplete').appendChild(autocompleteList);
 
-    console.log(data);
+async function checkWeather(city) {
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    
+
+    if(response.status==400){
+        document.querySelector('.details').style.display = "none";
+    }
+    else{
+        document.querySelector('.details').style.display = "block";
+        const data = await response.json();
+
+                console.log(data);
+
+            // Update the city name
+            document.querySelector(".city").innerHTML = data.name;
+            // Update the temp
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp)+"°C";
+            // Description
+            document.querySelector(".description").innerHTML = data.weather[0].description;
+            // Humidity
+            document.querySelector(".humidity-value").innerHTML = " " + Math.round(data.main.humidity) + "%";
+            // Wind speed
+            document.querySelector(".windSpeed-value").innerHTML = " " + Math.round(data.wind.speed) + "km/h";
+
+            //add imgs
+            //img according to weather conditions
+            if(data.weather[0].main=="Clouds"){
+                weatherIcon.src="img/cloud.png";
+            }
+            else if (data.weather[0].main=="Clear"){
+                weatherIcon.src="img/clear-sky.png";
+            } 
+            else if (data.weather[0].main=="Rain"){
+                weatherIcon.src="img/rain.png";
+            } 
+            else if (data.weather[0].main=="Drizzle"){
+                weatherIcon.src="img/weather.png";
+            } 
+            else if (data.weather[0].main=="Mist"){
+                weatherIcon.src="img/smoke.png";
+            } 
+            else if (data.weather[0].main=="Snow"){
+                weatherIcon.src="img/snow.png";
+            } 
+
+            }
+
+    
+        }
+
+        // Initial weather check
+        checkWeather();
+
+        button.addEventListener("click", () => {
+            checkWeather(locationInput.value);
+        });
 
 
-    //update the city name
-    document.querySelector(".city").innerHTML = data.name;
-    //update the temp
-    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) +"°C";
-    //discription
-    document.querySelector(".description").innerHTML = data.weather[0].description;
-    //humidity
-    document.querySelector(".humidity-value").innerHTML=" " + Math.round(data.main.humidity)+"%";
-    //wind speed
-    document.getElementsByClassName(".windSpeed-value").innerHTML=" " + Math.round(data.wind.speed)+"km/h";
+        
 
+
+async function fetchCities() {
+  
+    
+    const response = await fetch('cities.json');
+    const citiesData = await response.json();
+
+    // Extract city names and populate the array
+    cityNames = citiesData.map(city => city.name.toLowerCase());
+    console.log(cityNames)
+
+    function autocomplete(inp, arr) {
+        inp.addEventListener("input", function() {
+            const inputValue = this.value.toLowerCase();
+            autocompleteList.innerHTML = '';
+    
+            const filteredLocations = arr.filter(location => location.toLowerCase().startsWith(inputValue));
+    
+            filteredLocations.forEach(location => {
+                const suggestion = document.createElement('div');
+                suggestion.innerHTML = `<strong>${location.substr(0, inputValue.length)}</strong>${location.substr(inputValue.length)}`;
+                suggestion.innerHTML += `<input type='hidden' value='${location}'>`;
+    
+                suggestion.addEventListener('click', function() {
+                    inp.value = this.getElementsByTagName('input')[0].value;
+                    autocompleteList.innerHTML = '';
+                });
+    
+                autocompleteList.appendChild(suggestion);
+            });
+        });
+    
+        document.addEventListener('click', function(e) {
+            if (e.target !== inp) {
+                autocompleteList.innerHTML = '';
+            }
+        });
+    }
+    
+    // Call autocomplete function with your input and the array of locations
+    autocomplete(locationInput, cityNames);
 
 }
-checkWeather();
 
-
-
-
-
+// Call the function to fetch and process cities
+fetchCities();

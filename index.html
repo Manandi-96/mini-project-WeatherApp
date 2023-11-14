@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather-App</title>
-    <!--Style sheets-->
+    <!-- Style sheets -->
     <link rel="stylesheet" href="style.css">
-    <!--font Awsome-->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    
-
 </head>
+
 <body>
     <div class="container">
+        <div class="autocomplete">
+            <form autocomplete="off" class="autocompleteForm">
+            <input type="text" id="locationInput" placeholder="Enter location" spellcheck="false">
+            <button class="btn"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+            </form>
+            
+        </div>
 
-            <div class="autocomplete">
-                <input type="text" id="location-input" placeholder="Enter location" spellcheck="false">
-                <ul id="suggestions-list"></ul>
-                <button> <i class="fa fa-search" aria-hidden="true"></i> </button>
+        <div class="details">
+            <h1>Weather in <span class="city"> </span></h1>
+            <h1 class="temp"></h1>
+
+            <!-- Status with img -->
+            <div class="img">
+                <img src="" class="weather-icon">
+                <h3 class="description"></h3>
             </div>
 
-            <div class="details">
-
-                <h1>Weather in <span class="city"> </span></h1>
-                <h1 class="temp"></h1>
-
-                <!--status with img-->
-                <div class="img">
-                    <img src="" alt="">
-                    <h3 class="description">a cloudy day</h3>
-                </div>
-
-                <!--humidity-->
-                <div id="humidity">
-                    <p class="humidity">Humidity:</p>
-                    <p class="humidity-value"></p>
-                </div>
-                <!--Wind speed-->
-                <div id="windSpeed">
-                    <p class="windSpeed">Speed:</p>
-                    <p class="windSpeed-value"> 83 km/h</p>
-                </div>
-                
+            <!-- Humidity -->
+            <div id="humidity">
+                <p class="humidity">Humidity:</p>
+                <p class="humidity-value"></p>
             </div>
+
+            <!-- Wind speed -->
+            <div id="windSpeed">
+                <p class="windSpeed">Speed:</p>
+                <p class="windSpeed-value"></p>
+            </div>
+        </div>
     </div>
 
-    <script src="script.JS"></script>
+    <script src="script.js"></script>
    
 </body>
+
 </html>
