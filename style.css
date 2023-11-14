@@ -84,17 +84,19 @@ body {
     border: 1px solid #d4d4d4;
     border-bottom: none;
     border-top: none;
+    border-radius: 10PX;
     z-index: 99;
     /*position the autocomplete items to be the same width as the container:*/
     top: 100%;
     left: 0;
-    right: 0;
+    right: O;
   }
   .autocompleteForm-items div {
     padding: 10px;
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+    color: black;
   }
   .autocompleteForm-items div:hover {
     /*when hovering an item:*/
@@ -103,7 +105,7 @@ body {
   .autocompleteForm-active {
     /*when navigating through the items using the arrow keys:*/
     background-color: DodgerBlue !important;
-    color: #ffffff;
+    color: #231e1e;
   }
 
 

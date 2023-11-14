@@ -8,9 +8,69 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=
 const locationInput = document.querySelector('#locationInput');
 const button = document.querySelector('.btn');
 const weatherIcon= document.querySelector(".weather-icon");
+// autocomplete list
 const autocompleteList = document.createElement("div");
 autocompleteList.setAttribute("class", "autocompleteForm-items");
-document.querySelector('.autocomplete').appendChild(autocompleteList);
+document.querySelector('.autocompleteForm').appendChild(autocompleteList);
+        
+
+//==================fnction for autocomplete========================
+async function fetchCities() {
+
+ // getting the citi names from json to array
+    const response = await fetch('cities.json');
+    const citiesData = await response.json();
+    cityNames = citiesData.map(city => city.name.toLowerCase());
+    console.log(cityNames)
+    
+
+//compare input with the awailable cities in the array
+
+function autocomplete(inp, arr) {
+
+    // do not display other details until the citie is properly given to the apikey
+    document.querySelector('.details').style.display = "none";
+    
+    inp.addEventListener("input", function() {
+        const inputValue = this.value.toLowerCase();
+        autocompleteList.innerHTML = '';
+
+        const filteredLocations = arr.filter(location => location.toLowerCase().startsWith(inputValue));
+
+        filteredLocations.forEach(location => {
+            const suggestion = document.createElement('div');
+            suggestion.innerHTML = 
+            `<strong>${location.substr(0, inputValue.length)}</strong>
+            ${location.substr(inputValue.length)}`;
+            suggestion.innerHTML += `<input type='hidden' value='${location}'>`;
+
+            suggestion.addEventListener('click', function() {
+                inp.value = this.getElementsByTagName('input')[0].value;
+                console.log("Selected city:", inp.value);
+                autocompleteList.innerHTML = '';
+            });
+
+            autocompleteList.appendChild(suggestion);
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target !== inp) {
+            autocompleteList.innerHTML = '';
+        }
+    });
+    
+}
+        // Call autocomplete function with your input and the array of locations
+        autocomplete(locationInput, cityNames);
+
+        }
+
+        // Call the function to fetch and process cities
+        fetchCities();
+
+
+   // check weather to the entered city
 
 async function checkWeather(city) {
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
@@ -58,63 +118,19 @@ async function checkWeather(city) {
             } 
 
             }
-
-    
         }
+
 
         // Initial weather check
         checkWeather();
 
-        button.addEventListener("click", () => {
+      /* button.addEventListener("click", () => {
+            checkWeather(locationInput.value);
+        }); */ 
+        button.addEventListener("click", (event) => {
+            event.preventDefault(); // prevent form submission
             checkWeather(locationInput.value);
         });
 
-
-        
-
-
-async function fetchCities() {
-  
-    
-    const response = await fetch('cities.json');
-    const citiesData = await response.json();
-
-    // Extract city names and populate the array
-    cityNames = citiesData.map(city => city.name.toLowerCase());
-    console.log(cityNames)
-
-    function autocomplete(inp, arr) {
-        inp.addEventListener("input", function() {
-            const inputValue = this.value.toLowerCase();
-            autocompleteList.innerHTML = '';
-    
-            const filteredLocations = arr.filter(location => location.toLowerCase().startsWith(inputValue));
-    
-            filteredLocations.forEach(location => {
-                const suggestion = document.createElement('div');
-                suggestion.innerHTML = `<strong>${location.substr(0, inputValue.length)}</strong>${location.substr(inputValue.length)}`;
-                suggestion.innerHTML += `<input type='hidden' value='${location}'>`;
-    
-                suggestion.addEventListener('click', function() {
-                    inp.value = this.getElementsByTagName('input')[0].value;
-                    autocompleteList.innerHTML = '';
-                });
-    
-                autocompleteList.appendChild(suggestion);
-            });
-        });
-    
-        document.addEventListener('click', function(e) {
-            if (e.target !== inp) {
-                autocompleteList.innerHTML = '';
-            }
-        });
-    }
-    
-    // Call autocomplete function with your input and the array of locations
-    autocomplete(locationInput, cityNames);
-
-}
-
-// Call the function to fetch and process cities
-fetchCities();
+        console.log(locationInput.value)
+                
