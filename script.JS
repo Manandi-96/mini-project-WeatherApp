@@ -132,5 +132,5 @@ async function checkWeather(city) {
             checkWeather(locationInput.value);
         });
 
-        console.log(locationInput.value)
+    
                 
